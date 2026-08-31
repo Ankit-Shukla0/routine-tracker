@@ -37,13 +37,13 @@ updated: 2026-09-01T02:07:00+05:30
 ---
 
 ### Phase 2: Custom Routine Builder & Multi-Routine Management
-**Status:** ⬜ Not Started
+**Status:** 🔄 In Progress
 **Objective:** Build the interactive routine editor supporting unlimited custom routines, time-slotted & flexible task creation, categories & icons, task reordering & toggling, day-of-week assignment (Mon-Sun), and routine duplication.
 **Requirements:** REQ-03, REQ-04, REQ-05, REQ-06
 
 **Plans:**
-- [ ] Plan 2.1: Custom Routine CRUD, Routine Duplicator, and Day-of-Week assignment manager
-- [ ] Plan 2.2: Task Builder modal/drawer supporting time-slotted tasks, flexible duration tasks, categories, icons, reordering, and enable/disable states
+- [ ] Plan 2.1: "My Routines" Dashboard, Routine Modal Form & Schedule Management (Wave 1)
+- [ ] Plan 2.2: Task Builder Drawer, Dual Task Modality (Timed & Flexible), Categories & Reordering (Wave 2)
 
 ---
 

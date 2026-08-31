@@ -8,17 +8,16 @@ updated: 2026-09-01T02:07:30+05:30
 
 **Milestone:** v1.0
 **Phase:** 2 - Custom Routine Builder & Multi-Routine Management
-**Status:** ready for planning
-**Plan:** Not started
+**Status:** executing
+**Plan:** Ready to execute Plan 2.1
 
 ## Last Action
 
-Completed `/discuss-phase 2`. Documented decisions for My Routines card grid, Routine form/modal with Mon–Sun day pills, Task Builder drawer supporting Time-Slotted and Flexible modes, emoji/category selectors, reordering mechanics, safe duplication, and deletion fallbacks in `.gsd/DECISIONS.md`.
+Completed `/plan 2`. Created `01-PLAN.md` (Routines Dashboard, Card Grid, Create/Edit Routine Modal, Schedule Management) and `02-PLAN.md` (Task Builder Drawer, Timed/Flexible Modalities, Categories, Emoji Picker, Task Reordering).
 
 ## Next Steps
 
-1. Run `/plan 2` to create execution plans for Phase 2 (Custom Routine Builder & Multi-Routine Management).
-2. Execute Phase 2 plans (Routine Manager, Task Builder drawer, Day Scheduler, Routine Duplicator).
+1. Run `/execute 2` (or execute Plan 2.1).
 
 ## Active Decisions
 
