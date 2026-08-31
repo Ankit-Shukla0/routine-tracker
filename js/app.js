@@ -6,6 +6,7 @@
 import { store } from './store.js';
 import { clockService } from './clock.js';
 import { themeController } from './theme.js';
+import { routinesView } from './routines-view.js';
 
 class App {
   constructor() {
@@ -25,7 +26,10 @@ class App {
     this.setupClockSubscribers();
     this.setupStoreSubscribers();
 
-    // 3. Initial UI Render
+    // 3. Initialize Feature Views
+    routinesView.init();
+
+    // 4. Initial UI Render
     this.updateHeaderDate();
     this.renderRoutineDropdown();
     this.renderHeaderProgress();

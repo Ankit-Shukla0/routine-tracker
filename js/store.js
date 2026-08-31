@@ -221,7 +221,7 @@ class Store {
       type: taskData.type === 'flexible' ? 'flexible' : 'timed',
       startTime: taskData.startTime || '09:00',
       endTime: taskData.endTime || '10:00',
-      durationMinutes: taskData.durationMinutes || 30,
+      durationMinutes: typeof taskData.durationMinutes === 'number' ? taskData.durationMinutes : 30,
       category: taskData.category || 'General',
       icon: taskData.icon || '📌',
       enabled: taskData.enabled !== false,
@@ -230,6 +230,7 @@ class Store {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
+
 
     routine.tasks.push(newTask);
     routine.updatedAt = new Date().toISOString();

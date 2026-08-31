@@ -39,6 +39,9 @@ export function getDefaultState() {
  */
 export function loadState() {
   try {
+    if (typeof localStorage === 'undefined') {
+      return getDefaultState();
+    }
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) {
       return getDefaultState();
@@ -89,6 +92,7 @@ export function loadState() {
  */
 export function saveState(state) {
   try {
+    if (typeof localStorage === 'undefined') return true;
     if (!state || typeof state !== 'object') return false;
 
     const dataToSave = {
@@ -104,6 +108,7 @@ export function saveState(state) {
     return false;
   }
 }
+
 
 /**
  * Migration runner hook for future schema versions
