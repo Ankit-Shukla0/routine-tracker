@@ -16,10 +16,11 @@ Requirements derived from SPEC.md for traceability and coverage tracking.
 |----|-------------|--------|-------|--------|
 | REQ-01 | State management and local storage persistence with schema versioning and JSON export/import | SPEC Goal 1, 7 | 1 | Complete |
 | REQ-02 | CSS Design System & Theme Engine (Dark mode default, light toggle, responsive tokens, glassmorphism) | SPEC Goal 7 | 1 | Complete |
-| REQ-03 | Custom Routine Builder supporting unlimited routines and CRUD operations (no hardcoded routines) | SPEC Goal 1 | 2 | Pending |
-| REQ-04 | Dual Task Model: Time-slotted tasks (start/end) and flexible/floating tasks (duration/anytime checklist) | SPEC Goal 2 | 2 | Pending |
-| REQ-05 | Task editing, reordering (drag & drop / buttons), category assignment, icons, and enable/disable toggle | SPEC Goal 1, 2 | 2 | Pending |
-| REQ-06 | Multi-Routine assignment per day of week (Mon-Sun), manual routine switcher, and routine duplication | SPEC Goal 4 | 2 | Pending |
+| REQ-03 | Custom Routine Builder supporting unlimited routines and CRUD operations (no hardcoded routines) | SPEC Goal 1 | 2 | Complete |
+| REQ-04 | Dual Task Model: Time-slotted tasks (start/end) and flexible/floating tasks (duration/anytime checklist) | SPEC Goal 2 | 2 | Complete |
+| REQ-05 | Task editing, reordering (drag & drop / buttons), category assignment, icons, and enable/disable toggle | SPEC Goal 1, 2 | 2 | Complete |
+| REQ-06 | Multi-Routine assignment per day of week (Mon-Sun), manual routine switcher, and routine duplication | SPEC Goal 4 | 2 | Complete |
+
 | REQ-07 | Daily Timeline view with real-time active task highlight and visual daily progress indicator | SPEC Goal 3 | 3 | Pending |
 | REQ-08 | Dynamic task status engine: Completed, Current/Active, Upcoming, and Missed | SPEC Goal 3 | 3 | Pending |
 | REQ-09 | Missed task handling: Retroactive completion and quick-rescheduling controls | SPEC Goal 3 | 3 | Pending |
