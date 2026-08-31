@@ -1,0 +1,19 @@
+{
+  "name": "routine-tracker",
+  "version": "1.0.0",
+  "description": "A modern, premium, responsive Routine Tracker web application",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "routine",
+    "tracker",
+    "habits",
+    "productivity",
+    "timeline"
+  ],
+  "author": "",
+  "license": "MIT"
+}
