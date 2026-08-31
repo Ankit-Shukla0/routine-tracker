@@ -93,4 +93,32 @@ Implement a Dark Theme by default featuring glassmorphic cards, luminous status 
 
 ---
 
+## Phase 1 Decisions: Foundation, Design System & Core State Architecture
+
+**Date**: 2026-09-01
+
+### Scope
+- **App Shell**: Collapsible left Sidebar + Main Content Dashboard.
+- **Sidebar Navigation**: Dashboard (Today's Timeline), My Routines, Progress / Stats, Settings.
+- **Mobile Experience**: Responsive transformation into bottom navigation bar and mobile drawer.
+- **Top Bar**: Current date/day header, active routine selector dropdown, and live daily completion percentage badge.
+- **First-Time User Onboarding**: Polished Welcome card with two clear choices:
+  1. *Create My First Routine* (starts clean and blank)
+  2. *Start With Sample Routine* (optional starting template, never hardcoded as default).
+
+### Approach & Architecture
+- **State Management**: Reactive, single-source-of-truth Store (`store.js`) with pub/sub event bus (`store.on(event, handler)`).
+- **Storage Layer**: Isolated resilient storage adapter (`storage.js`) featuring schema versioning (`version: 1`), safe migration fallback, corruption protection (auto-backup prior to repair), and zero silent data wiping.
+- **Real-Time Clock Service**: Centralized clock ticker (`clock.js`) emitting minute-level ticks to prevent high-frequency re-render thrashing, with midnight/date-rollover detection and local system time alignment.
+- **Design Tokens**: Modular CSS variables in `tokens.css` with Indigo/Violet primary, Emerald (completed), Amber (active), Coral/Rose (missed), glassmorphic backdrops (`backdrop-filter: blur(12px)`), accessible contrast, and `prefers-reduced-motion` compliance.
+
+### Data Schema Definition
+- **Routine Schema**: `{ id, name, description, color, icon, daysActive: [0..6], createdAt, updatedAt, tasks: [] }`
+- **Task Schema**: `{ id, title, description, type: "timed" | "flexible", startTime, endTime, durationMinutes, category, icon, enabled, order, reminderEnabled, createdAt, updatedAt }`
+- **Daily Log Schema**: `{ [dateStr]: { tasks: { [taskId]: { completed, completedAt, missed, rescheduledTime, notes } }, updatedAt } }`
+- **User Preferences**: `{ theme: "dark" | "light", soundEnabled: boolean, notificationsEnabled: boolean, notificationLeadMinutes: number, audioVolume: number }`
+
+---
+
 *Last updated: 2026-09-01*
+
