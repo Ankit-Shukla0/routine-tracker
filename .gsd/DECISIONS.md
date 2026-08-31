@@ -120,5 +120,27 @@ Implement a Dark Theme by default featuring glassmorphic cards, luminous status 
 
 ---
 
+## Phase 2 Decisions: Custom Routine Builder & Multi-Routine Management
+
+**Date**: 2026-09-01
+
+### Scope & Features
+- **"My Routines" Dashboard**: Visual card grid displaying routine icon, name, description, color accent, Mon–Sun active day pills, total task count, total scheduled duration, active badge, and action menu.
+- **Routine CRUD & Duplication**:
+  - Creation/editing modal with required name, Mon–Sun day multi-selection, optional description, color picker, and icon picker.
+  - Deep-clone duplication generating fresh IDs for routine and all tasks.
+  - Safe deletion with modal confirmation; fallback to remaining routine if active routine is deleted.
+- **Task Builder Drawer/Modal**:
+  - **Time-Slotted Mode**: Start/end time inputs with auto-calculated duration, validation ensuring end > start, and non-blocking overlap detection warning.
+  - **Flexible Mode**: Presets (15m, 30m, 45m, 1h), custom duration, or anytime checklist task.
+  - **Attributes**: Title, notes, category (Health, Deep Work, Focus, Wellness, Learning, Personal, Custom), emoji picker, reminder toggle, enable/disable toggle.
+- **Task Ordering**:
+  - Chronological sort for timed tasks, custom order for flexible tasks with drag-and-drop handles and accessible Move Up / Move Down controls.
+- **Day-of-Week Schedule Engine**:
+  - Multi-day selection per routine with automatic activation on midnight date rollover, preserving manual session overrides.
+
+---
+
 *Last updated: 2026-09-01*
+
 

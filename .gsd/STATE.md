@@ -13,12 +13,12 @@ updated: 2026-09-01T02:07:30+05:30
 
 ## Last Action
 
-Phase 1 executed and verified. Built HTML5 shell, CSS design tokens with Dark (default) and Light themes, glassmorphism, responsive collapsible navigation, resilient schema-versioned local storage engine, centralized real-time clock service, reactive store, and app bootstrap orchestrator.
+Completed `/discuss-phase 2`. Documented decisions for My Routines card grid, Routine form/modal with Mon–Sun day pills, Task Builder drawer supporting Time-Slotted and Flexible modes, emoji/category selectors, reordering mechanics, safe duplication, and deletion fallbacks in `.gsd/DECISIONS.md`.
 
 ## Next Steps
 
-1. Run `/discuss-phase 2` or `/plan 2` to create execution plans for Phase 2 (Custom Routine Builder & Multi-Routine Management).
-2. Implement custom routine creator, task builder (time-slotted & flexible), day-of-week schedule matrix, reordering, and routine duplication.
+1. Run `/plan 2` to create execution plans for Phase 2 (Custom Routine Builder & Multi-Routine Management).
+2. Execute Phase 2 plans (Routine Manager, Task Builder drawer, Day Scheduler, Routine Duplicator).
 
 ## Active Decisions
 
