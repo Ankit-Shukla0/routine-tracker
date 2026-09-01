@@ -43,7 +43,15 @@
 - **Evidence**: `reorderFlexibleTask()` swaps order indices and persists to store; verified through `routines-view.js`.
 - **Status**: ✅ VERIFIED
 
+### 8. Post-Verification Refinements & Bug Fixes
+- **Requirement**: Timed task edit persistence, clean user-facing metadata isolation, and robust time overlap warnings.
+- **Evidence**:
+  - `store.persist()` made synchronous to eliminate race conditions on reload/save.
+  - Task cards format categories (`<span class="task-category-pill">`), reminders (`<span class="task-reminder-pill">🔔 Reminder on</span>`), and notes (`<div class="task-desc-line">📝 ...</div>`) into dedicated lines without raw string concatenation.
+  - Time overlap validation tested in browser with Morning Workout (07:00–08:00) vs Breakfast (07:30–08:30): displayed warning banner, preserved inputs, and saved immediately with 13/13 automated test assertions passing in `tests/test_phase2_fixes.mjs`.
+- **Status**: ✅ VERIFIED
+
 ---
 
 ### Verdict: PASS
-Phase 2 must-haves are completely satisfied with verified implementation across routine cards, modal forms, day-of-week scheduling, dual-mode task builder, emoji/category selectors, reordering mechanics, and deep duplication.
+Phase 2 must-haves and post-verification refinements are completely satisfied with verified implementation across routine cards, modal forms, day-of-week scheduling, dual-mode task builder, emoji/category selectors, reordering mechanics, deep duplication, and synchronous persistence.

@@ -74,10 +74,10 @@ class Store {
   persist() {
     if (this.saveTimeout) {
       clearTimeout(this.saveTimeout);
+      this.saveTimeout = null;
     }
-    this.saveTimeout = setTimeout(() => {
-      saveState(this.state);
-    }, 150);
+    // Save immediately and synchronously to ensure atomic persistence
+    saveState(this.state);
   }
 
   // --- Navigation & View State ---
@@ -100,7 +100,8 @@ class Store {
   }
 
   getRoutineById(id) {
-    return this.state.routines.find((r) => r.id === id) || null;
+    if (!id) return null;
+    return this.state.routines.find((r) => String(r.id) === String(id)) || null;
   }
 
   getActiveRoutine() {
@@ -127,7 +128,7 @@ class Store {
   }
 
   setActiveRoutine(id) {
-    if (this.state.activeRoutineId !== id) {
+    if (String(this.state.activeRoutineId) !== String(id)) {
       this.state.activeRoutineId = id;
       this.persist();
       this.emit('activeRoutine:changed', { routineId: id, routine: this.getActiveRoutine() });
@@ -158,7 +159,7 @@ class Store {
   }
 
   updateRoutine(id, updates) {
-    const idx = this.state.routines.findIndex((r) => r.id === id);
+    const idx = this.state.routines.findIndex((r) => String(r.id) === String(id));
     if (idx === -1) return null;
 
     this.state.routines[idx] = {
@@ -173,11 +174,11 @@ class Store {
   }
 
   deleteRoutine(id) {
-    const idx = this.state.routines.findIndex((r) => r.id === id);
+    const idx = this.state.routines.findIndex((r) => String(r.id) === String(id));
     if (idx === -1) return false;
 
     const removed = this.state.routines.splice(idx, 1)[0];
-    if (this.state.activeRoutineId === id) {
+    if (String(this.state.activeRoutineId) === String(id)) {
       this.state.activeRoutineId = this.state.routines.length > 0 ? this.state.routines[0].id : null;
     }
 
@@ -231,7 +232,6 @@ class Store {
       updatedAt: new Date().toISOString()
     };
 
-
     routine.tasks.push(newTask);
     routine.updatedAt = new Date().toISOString();
 
@@ -244,7 +244,7 @@ class Store {
     const routine = this.getRoutineById(routineId);
     if (!routine) return null;
 
-    const taskIdx = routine.tasks.findIndex((t) => t.id === taskId);
+    const taskIdx = routine.tasks.findIndex((t) => String(t.id) === String(taskId));
     if (taskIdx === -1) return null;
 
     routine.tasks[taskIdx] = {
@@ -263,7 +263,7 @@ class Store {
     const routine = this.getRoutineById(routineId);
     if (!routine) return false;
 
-    const taskIdx = routine.tasks.findIndex((t) => t.id === taskId);
+    const taskIdx = routine.tasks.findIndex((t) => String(t.id) === String(taskId));
     if (taskIdx === -1) return false;
 
     const removed = routine.tasks.splice(taskIdx, 1)[0];

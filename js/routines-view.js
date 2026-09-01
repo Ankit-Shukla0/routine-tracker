@@ -559,23 +559,26 @@ class RoutinesViewController {
           const durationMins = this.calculateTaskDuration(task);
           const durationFormatted = this.formatDurationMinutes(durationMins);
           const isEnabled = task.enabled !== false;
+          const hasDesc = task.description && typeof task.description === 'string' && task.description.trim().length > 0;
 
           html += `
             <div class="task-item-card ${!isEnabled ? 'task-disabled' : ''}">
               <div class="task-left-content">
                 <div class="task-icon-box">${task.icon || '📌'}</div>
                 <div class="task-info">
-                  <div style="display: flex; align-items: center; gap: var(--space-2);">
+                  <div style="display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap;">
                     <span class="task-title">${this.escapeHtml(task.title)}</span>
-                    ${task.reminderEnabled ? `<span title="Reminder enabled" style="font-size: 11px;">🔔</span>` : ''}
+                    ${task.reminderEnabled ? `<span class="task-reminder-pill" title="Audio chime & notifications enabled">🔔 Reminder on</span>` : ''}
                   </div>
                   <div class="task-meta">
                     <span class="task-time-pill">
-                      🕒 ${clockService.formatDisplayTime(task.startTime)} - ${clockService.formatDisplayTime(task.endTime)} (${durationFormatted})
+                      🕒 ${clockService.formatDisplayTime(task.startTime)} – ${clockService.formatDisplayTime(task.endTime)} (${durationFormatted})
                     </span>
                     ${task.category ? `<span class="task-category-pill">${this.escapeHtml(task.category)}</span>` : ''}
-                    ${task.description ? `<span style="color: var(--text-muted); font-size: 11px;">• ${this.escapeHtml(task.description)}</span>` : ''}
                   </div>
+                  ${hasDesc ? `
+                    <div class="task-desc-line">📝 ${this.escapeHtml(task.description.trim())}</div>
+                  ` : ''}
                 </div>
               </div>
 
@@ -608,22 +611,26 @@ class RoutinesViewController {
         flexibleTasks.forEach((task, index) => {
           const isEnabled = task.enabled !== false;
           const isAnytime = !task.durationMinutes;
+          const hasDesc = task.description && typeof task.description === 'string' && task.description.trim().length > 0;
 
           html += `
             <div class="task-item-card ${!isEnabled ? 'task-disabled' : ''}">
               <div class="task-left-content">
                 <div class="task-icon-box">${task.icon || '🎯'}</div>
                 <div class="task-info">
-                  <div style="display: flex; align-items: center; gap: var(--space-2);">
+                  <div style="display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap;">
                     <span class="task-title">${this.escapeHtml(task.title)}</span>
+                    ${task.reminderEnabled ? `<span class="task-reminder-pill" title="Audio chime & notifications enabled">🔔 Reminder on</span>` : ''}
                   </div>
                   <div class="task-meta">
                     <span class="task-time-pill" style="background: rgba(16, 185, 129, 0.12); color: var(--completed-text);">
-                      ${isAnytime ? 'Anytime' : `⏱ ${this.formatDurationMinutes(task.durationMinutes)}`}
+                      ${isAnytime ? '⏱ Anytime' : `⏱ ${this.formatDurationMinutes(task.durationMinutes)}`}
                     </span>
                     ${task.category ? `<span class="task-category-pill">${this.escapeHtml(task.category)}</span>` : ''}
-                    ${task.description ? `<span style="color: var(--text-muted); font-size: 11px;">• ${this.escapeHtml(task.description)}</span>` : ''}
                   </div>
+                  ${hasDesc ? `
+                    <div class="task-desc-line">📝 ${this.escapeHtml(task.description.trim())}</div>
+                  ` : ''}
                 </div>
               </div>
 
@@ -699,7 +706,7 @@ class RoutinesViewController {
     container.querySelectorAll('.btn-delete-task').forEach((btn) => {
       btn.addEventListener('click', () => {
         const taskId = btn.getAttribute('data-id');
-        const task = (routine.tasks || []).find((t) => t.id === taskId);
+        const task = (routine.tasks || []).find((t) => String(t.id) === String(taskId));
         if (task && confirm(`Delete task "${task.title}"?`)) {
           store.deleteTask(routine.id, taskId);
           app.showToast('Task Deleted', `Removed "${task.title}".`, 'info');
@@ -726,7 +733,7 @@ class RoutinesViewController {
 
   reorderFlexibleTask(routine, taskId, delta) {
     const flexibleTasks = (routine.tasks || []).filter((t) => t.type === 'flexible').sort((a, b) => (a.order || 0) - (b.order || 0));
-    const idx = flexibleTasks.findIndex((t) => t.id === taskId);
+    const idx = flexibleTasks.findIndex((t) => String(t.id) === String(taskId));
     if (idx === -1) return;
 
     const targetIdx = idx + delta;

@@ -38,8 +38,8 @@ class TaskBuilderController {
     const routine = store.getRoutineById(routineId);
     if (!routine) return;
 
-    const isEdit = !!taskId;
-    const task = isEdit ? (routine.tasks || []).find((t) => t.id === taskId) : null;
+    const isEdit = taskId !== null && taskId !== undefined && taskId !== '';
+    const task = isEdit ? (routine.tasks || []).find((t) => String(t.id) === String(taskId)) : null;
 
     let selectedType = task ? task.type : 'timed'; // 'timed' | 'flexible'
     let selectedStartTime = task && task.startTime ? task.startTime : '09:00';
@@ -197,6 +197,7 @@ class TaskBuilderController {
 
     // Update duration & check overlaps helper
     const updateTimedState = () => {
+      if (!startTimeInput || !endTimeInput) return;
       const startVal = startTimeInput.value;
       const endVal = endTimeInput.value;
       if (!startVal || !endVal) return;
@@ -223,25 +224,27 @@ class TaskBuilderController {
         durationBadge.className = 'badge badge-active';
       }
 
-      // Check overlaps with other tasks in routine
+      // Check overlaps with other timed tasks in routine (excluding self)
       const otherTimedTasks = (routine.tasks || []).filter(
-        (t) => t.id !== taskId && t.type !== 'flexible' && t.enabled !== false
+        (t) => String(t.id) !== String(taskId) && t.type !== 'flexible' && t.enabled !== false
       );
 
-      let overlappingTask = null;
+      const overlappingTasks = [];
       for (const other of otherTimedTasks) {
         const otherStart = clockService.parseTimeToMinutes(other.startTime);
         const otherEnd = clockService.parseTimeToMinutes(other.endTime);
 
         // Check range intersection
         if (Math.max(startMins, otherStart) < Math.min(endMins, otherEnd)) {
-          overlappingTask = other;
-          break;
+          overlappingTasks.push(other);
         }
       }
 
-      if (overlappingTask && warningBanner) {
-        warningBanner.textContent = `⚠️ Note: This time window overlaps with "${overlappingTask.title}" (${clockService.formatDisplayTime(overlappingTask.startTime)} - ${clockService.formatDisplayTime(overlappingTask.endTime)}).`;
+      if (overlappingTasks.length > 0 && warningBanner) {
+        const overlapList = overlappingTasks.map(
+          (t) => `"${this.escapeHtml(t.title)}" (${clockService.formatDisplayTime(t.startTime)} – ${clockService.formatDisplayTime(t.endTime)})`
+        ).join(', ');
+        warningBanner.innerHTML = `⚠️ <strong>Time Overlap Warning:</strong> This time slot overlaps with ${overlapList}. You can still save if this is intentional.`;
         warningBanner.style.display = 'block';
       } else if (warningBanner) {
         warningBanner.style.display = 'none';
@@ -330,8 +333,8 @@ class TaskBuilderController {
       let durationVal = 30;
 
       if (selectedType === 'timed') {
-        startVal = startTimeInput.value;
-        endVal = endTimeInput.value;
+        startVal = startTimeInput ? startTimeInput.value.trim() : '';
+        endVal = endTimeInput ? endTimeInput.value.trim() : '';
 
         if (!startVal || !endVal) {
           if (errorBanner) {
@@ -359,8 +362,10 @@ class TaskBuilderController {
 
       // Resolve category
       let finalCategory = selectedCategory;
-      if (categorySelect.value === '__custom__') {
+      if (categorySelect && categorySelect.value === '__custom__') {
         finalCategory = customCategoryInput.value.trim() || 'Custom';
+      } else if (categorySelect) {
+        finalCategory = categorySelect.value || selectedCategory;
       }
 
       const taskPayload = {
@@ -377,14 +382,29 @@ class TaskBuilderController {
       };
 
       if (isEdit) {
-        store.updateTask(routineId, taskId, taskPayload);
-        app.showToast('Task Updated', `Saved changes to "${titleVal}".`, 'success');
+        const updated = store.updateTask(routineId, taskId, taskPayload);
+        if (updated) {
+          app.showToast('Task Updated', `Saved changes to "${titleVal}".`, 'success');
+          app.closeModal();
+        } else {
+          if (errorBanner) {
+            errorBanner.textContent = 'Failed to update task: task not found.';
+            errorBanner.style.display = 'block';
+          }
+          app.showToast('Update Failed', 'Could not find task to update.', 'error');
+        }
       } else {
-        store.addTask(routineId, taskPayload);
-        app.showToast('Task Added', `Added "${titleVal}" to routine.`, 'success');
+        const added = store.addTask(routineId, taskPayload);
+        if (added) {
+          app.showToast('Task Added', `Added "${titleVal}" to routine.`, 'success');
+          app.closeModal();
+        } else {
+          if (errorBanner) {
+            errorBanner.textContent = 'Failed to add task to routine.';
+            errorBanner.style.display = 'block';
+          }
+        }
       }
-
-      app.closeModal();
     });
   }
 

@@ -13,7 +13,11 @@ updated: 2026-09-01T02:07:30+05:30
 
 ## Last Action
 
-Phase 2 executed and verified. Delivered "My Routines" dashboard, responsive routine cards with Mon–Sun day pills & duration metrics, Routine CRUD modal, Task Builder drawer supporting Time-Slotted and Flexible/Floating tasks, overlap detection warnings, preset categories, curated emoji picker, accessible task reordering, deep duplication, and safe deletion with fallback.
+Phase 2 debug session resolved:
+1. Fixed timed task edit persistence with synchronous storage persistence and string-safe ID lookups.
+2. Formatted task card metadata cleanly (isolated category badge, distinct reminder badge `🔔 Reminder on`, dedicated note line `📝 ...`), eliminating raw string concatenation.
+3. Enhanced time overlap detection with multi-task range warnings while preserving entered input values.
+4. Verified end-to-end via interactive browser subagent testing and automated test suite (`tests/test_phase2_fixes.mjs` - 13/13 passing).
 
 ## Next Steps
 

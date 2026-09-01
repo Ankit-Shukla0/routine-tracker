@@ -1183,8 +1183,30 @@
   border-radius: var(--radius-full);
   background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-size: 11px;
+  font-weight: 500;
+}
+
+.task-reminder-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-full);
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  color: var(--active-text);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.task-desc-line {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-top: 3px;
+  word-break: break-word;
 }
 
 .task-actions {
